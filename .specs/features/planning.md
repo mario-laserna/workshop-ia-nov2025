@@ -14,15 +14,19 @@ Esta aplicación es una herramienta de análisis de empresas SaaS para inversion
 
 ## Componentes del sistema
 - **Frontend**: Next.js (App Router) con TypeScript y Tailwind CSS.
-- **Backend**: FastAPI con Python, SQLAlchemy (async) y Pydantic.
+- **Backend**: FastAPI con Python, **supabase-py** y Pydantic.
 - **Base de datos**: PostgreSQL en Supabase.
 
-## Modelos de datos
-- `Company`: Tabla principal con métricas y relaciones a `Industry` y `Location`.
-- `Industry`: Tabla normalizada de industrias.
-- `Location`: Tabla normalizada de ubicaciones.
-- `Investor`: Tabla normalizada de inversores.
-- `CompanyInvestor`: Tabla de unión para la relación N:M entre empresas e inversores.
+## Patrón de arquitectura (Backend)
+```
+FastAPI (Routers)
+    ↓
+Services (lógica de negocio)
+    ↓
+Repositories (acceso a datos con supabase-py)
+    ↓
+PostgreSQL (Supabase)
+```
 
 ## APIs e integraciones
 - **API interna**: El frontend consume una API RESTful proporcionada por el backend de FastAPI.
@@ -39,53 +43,43 @@ Esta aplicación es una herramienta de análisis de empresas SaaS para inversion
 
 ## Fase 1: Backend (API Core)
 1.  **Configuración del entorno Backend**:
-    -   Configurar `pyproject.toml` con dependencias: `fastapi`, `uvicorn`, `sqlalchemy[asyncio]`, `psycopg2-binary`, `pydantic-settings`.
-    -   Crear estructura de directorios: `api/`, `core/`, `models/`, `repositories/`, `schemas/`, `services/`.
-2.  **Conexión a Base de Datos**:
-    -   Implementar `core/config.py` para gestionar variables de entorno (`DATABASE_URL`) con Pydantic-Settings.
-    -   Crear `core/database.py` para gestionar la sesión de SQLAlchemy asíncrona.
-3.  **Modelos y Schemas**:
-    -   Crear los modelos de SQLAlchemy en `models/` para `Company`, `Industry`, `Location`, `Investor`.
-    -   Definir los schemas de Pydantic en `schemas/` para las respuestas de la API (ej. `CompanyRead`, `IndustryRead`). Incluir el schema para la lista de inversores anidada.
+    -   Configurar `pyproject.toml` con dependencias: `fastapi`, `uvicorn`, `supabase-py`, `pydantic-settings`.
+    -   Crear estructura de directorios: `api/`, `core/`, `repositories/`, `schemas/`, `services/`.
+2.  **Conexión a Supabase**:
+    -   Implementar `core/config.py` para gestionar variables de entorno (`SUPABASE_URL`, `SUPABASE_KEY`) con Pydantic-Settings.
+    -   Crear `core/supabase.py` para inicializar y exponer el cliente de Supabase.
+3.  **Schemas Pydantic**:
+    -   Definir los schemas en `schemas/` para las respuestas de la API (ej. `CompanyRead`, `IndustryRead`). Incluir el schema para la lista de inversores anidada.
 4.  **Capa de Acceso a Datos (Repositories)**:
-    -   Implementar `repositories/company_repository.py` con métodos asíncronos para obtener empresas, aplicando filtros combinados (AND) por industria y ubicación. Usar `joinedload` para incluir eficientemente industrias, ubicaciones e inversores.
-    -   Implementar `repositories/industry_repository.py` y `location_repository.py` con métodos para obtener todos los registros.
+    -   Implementar `repositories/company_repository.py` con métodos que usen el cliente de `supabase-py` para obtener empresas, aplicando filtros y seleccionando datos relacionados (`select('*, industry(*), ...')`).
+    -   Implementar `repositories/industry_repository.py` y `location_repository.py`.
 5.  **Capa de Lógica de Negocio (Services)**:
-    -   Crear `services/company_service.py` que utilice los repositorios para obtener y procesar los datos.
+    -   Crear `services/company_service.py` que utilice los repositorios.
 6.  **Capa de API (Routers)**:
-    -   Implementar los endpoints en `api/`:
-        -   `GET /api/v1/companies`: Router que inyecta el servicio y devuelve la lista de empresas.
-        -   `GET /api/v1/industries` y `GET /api/v1/locations`: Routers para los datos de los filtros.
-        -   `GET /api/v1/health`: Endpoint de chequeo de salud.
-7.  **Pruebas Unitarias/Integración**:
-    -   Añadir pruebas para los endpoints usando `TestClient` de FastAPI.
+    -   Implementar los endpoints en `api/` para `companies`, `industries`, `locations` y `health`.
+7.  **Pruebas (con Mocks)**:
+    -   Añadir pruebas para servicios y endpoints, usando `unittest.mock` para simular las respuestas del cliente de Supabase.
 
 ## Fase 2: Frontend (UI y Conexión)
 1.  **Configuración del entorno Frontend**:
-    -   Verificar `package.json` con dependencias: `next`, `react`, `tailwindcss`.
-    -   Estructura de directorios: `app/`, `components/`, `lib/`, `types/`.
-2.  **Tipos de Datos**:
-    -   Definir interfaces en `types/` que coincidan con los schemas de la API del backend.
-3.  **Cliente de API**:
-    -   Crear `lib/api.ts` con funciones para hacer fetch a los endpoints del backend (`getCompanies`, `getIndustries`, `getLocations`).
-4.  **Componentes de UI**:
-    -   `components/CompanyTable.tsx`: Componente que renderiza una tabla (`<table>`) con los datos de las empresas.
-    -   `components/Filters.tsx`: Componente (cliente) con los `selects` para industria y ubicación. Gestionará la actualización de los query params de la URL.
-5.  **Página Principal (Dashboard)**:
-    -   Modificar `app/page.tsx` para que sea un Server Component.
-    -   Leerá los `searchParams` de la URL para pasarlos a `lib/api.ts`.
-    -   Hará fetch de los datos de empresas, industrias y ubicaciones.
-    -   Renderizará el componente `Filters` y `CompanyTable`.
-6.  **Estilos**:
-    -   Aplicar estilos con Tailwind CSS para asegurar una interfaz limpia y responsive.
+    -   Verificar `package.json` y estructura de directorios.
+2.  **Tipos y Cliente de API**:
+    -   Definir interfaces en `types/` y crear `lib/api.ts` para hacer fetch a los endpoints.
+3.  **Componentes de UI**:
+    -   `components/CompanyTable.tsx`: Componente para renderizar la tabla de datos.
+    -   `components/Filters.tsx`: Componente cliente para los filtros.
+4.  **Página Principal (Dashboard)**:
+    -   Modificar `app/page.tsx` para leer `searchParams`, hacer fetch de los datos y renderizar los componentes.
+5.  **Estilos**:
+    -   Aplicar estilos con Tailwind CSS.
 
 # Riesgos y Mitigaciones
--   **Riesgo**: Complejidad en la consulta de inversores anidados que afecte el rendimiento.
-    -   **Mitigación**: Uso de `joinedload` en SQLAlchemy para asegurar una consulta SQL eficiente y evitar el problema N+1. Realizar pruebas de carga tempranas.
+-   **Riesgo**: Rendimiento en la consulta de datos anidados con `supabase-py`.
+    -   **Mitigación**: Utilizar la sintaxis de `select` de Supabase para construir una única consulta eficiente que obtenga todos los datos relacionados, evitando el problema N+1.
 -   **Riesgo**: Sincronización del estado de los filtros en el frontend.
-    -   **Mitigación**: Adoptar el patrón de estado en la URL (query params) desde el principio, que se alinea con las mejores prácticas de Next.js App Router y simplifica la lógica a largo plazo.
+    -   **Mitigación**: Adoptar el patrón de estado en la URL (query params), alineado con las mejores prácticas de Next.js App Router.
 -   **Riesgo**: Desacople entre los schemas del backend y los tipos del frontend.
-    -   **Mitigación**: Mantener una comunicación fluida entre equipos o, en un futuro, considerar un monorepo con un paquete de tipos compartido.
+    -   **Mitigación**: Mantener una comunicación fluida o considerar un monorepo con tipos compartidos.
 
 # Apéndice
 -   **Dataset**: [Top 100 SaaS Companies on Kaggle](https://www.kaggle.com/datasets/shreyasdasari7/top-100-saas-companiesstartups)
