@@ -10,82 +10,82 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 
 Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_template_es.md](../../.specs/templates/adr_template_es.md) y guardar en `docs/adrs/`.
 
-- [ ] **ADR-001: Supabase Python async client para acceso a datos**
-    - [ ] Documentar contexto: necesidad de acceso a PostgreSQL hospedado en Supabase desde FastAPI; la base de datos ya existe y está poblada en Supabase
-    - [ ] Documentar decisión: uso de la librería oficial `supabase-py` con cliente async (`supabase._async.create_client`) para acceder a datos vía PostgREST
-    - [ ] Documentar alternativas evaluadas: SQLAlchemy async + asyncpg (acceso SQL directo), postgrest-py (cliente PostgREST sin SDK completo), raw HTTP a PostgREST
-    - [ ] Documentar consecuencias: sin necesidad de modelos ORM, queries vía API REST (PostgREST), requiere `SUPABASE_URL` + `SUPABASE_KEY`, menor complejidad de configuración, dependencia del servicio Supabase
-    - [ ] Guardar en `docs/adrs/adr-001-supabase-python-client.md`
+- [x] **ADR-001: Supabase Python async client para acceso a datos**
+    - [x] Documentar contexto: necesidad de acceso a PostgreSQL hospedado en Supabase desde FastAPI; la base de datos ya existe y está poblada en Supabase
+    - [x] Documentar decisión: uso de la librería oficial `supabase-py` con cliente async (`supabase._async.create_client`) para acceder a datos vía PostgREST
+    - [x] Documentar alternativas evaluadas: SQLAlchemy async + asyncpg (acceso SQL directo), postgrest-py (cliente PostgREST sin SDK completo), raw HTTP a PostgREST
+    - [x] Documentar consecuencias: sin necesidad de modelos ORM, queries vía API REST (PostgREST), requiere `SUPABASE_URL` + `SUPABASE_KEY`, menor complejidad de configuración, dependencia del servicio Supabase
+    - [x] Guardar en `docs/adrs/adr-001-supabase-python-client.md`
 
-- [ ] **ADR-002: Arquitectura por capas (Router → Service → Repository)**
-    - [ ] Documentar contexto: necesidad de separar responsabilidades para mantenibilidad y testabilidad
-    - [ ] Documentar decisión: patrón de capas con inyección de dependencias vía `Depends()` de FastAPI
-    - [ ] Documentar alternativas evaluadas: lógica directa en routers, patrón CQRS, hexagonal architecture
-    - [ ] Documentar consecuencias: más archivos/boilerplate, clara separación de responsabilidades, facilidad de testing con mocks, escalabilidad del código
-    - [ ] Guardar en `docs/adrs/adr-002-arquitectura-por-capas.md`
+- [x] **ADR-002: Arquitectura por capas (Router → Service → Repository)**
+    - [x] Documentar contexto: necesidad de separar responsabilidades para mantenibilidad y testabilidad
+    - [x] Documentar decisión: patrón de capas con inyección de dependencias vía `Depends()` de FastAPI
+    - [x] Documentar alternativas evaluadas: lógica directa en routers, patrón CQRS, hexagonal architecture
+    - [x] Documentar consecuencias: más archivos/boilerplate, clara separación de responsabilidades, facilidad de testing con mocks, escalabilidad del código
+    - [x] Guardar en `docs/adrs/adr-002-arquitectura-por-capas.md`
 
-- [ ] **ADR-003: Server Components + URL Search Params para data fetching en frontend**
-    - [ ] Documentar contexto: estrategia de fetching de datos y gestión de estado de filtros en Next.js
-    - [ ] Documentar decisión: uso de React Server Components con filtros reflejados en URL search params
-    - [ ] Documentar alternativas evaluadas: Client Components con SWR/React Query, Server Actions, API Routes intermedias
-    - [ ] Documentar consecuencias: menos JavaScript en cliente, URLs compartibles con estado, re-render desde servidor en cada cambio de filtro
-    - [ ] Guardar en `docs/adrs/adr-003-server-components-url-params.md`
+- [x] **ADR-003: Server Components + URL Search Params para data fetching en frontend**
+    - [x] Documentar contexto: estrategia de fetching de datos y gestión de estado de filtros en Next.js
+    - [x] Documentar decisión: uso de React Server Components con filtros reflejados en URL search params
+    - [x] Documentar alternativas evaluadas: Client Components con SWR/React Query, Server Actions, API Routes intermedias
+    - [x] Documentar consecuencias: menos JavaScript en cliente, URLs compartibles con estado, re-render desde servidor en cada cambio de filtro
+    - [x] Guardar en `docs/adrs/adr-003-server-components-url-params.md`
 
 ### Diagramas de Arquitectura C4 (MermaidJS)
 
-- [ ] **Diseñar diagrama C4 de Contexto del sistema**
-    - [ ] Identificar actor externo: Inversionista/Analista (usuario)
-    - [ ] Representar el sistema "Top SaaS Dashboard" como caja central (incluye Frontend, Backend y Base de datos Supabase dentro del boundary del sistema)
-    - [ ] Mostrar relaciones: usuario → sistema (consulta dashboard para evaluar métricas de empresas SaaS)
-    - [ ] **No** representar PostgreSQL/Supabase como actor externo (es parte interna del sistema)
-    - [ ] Generar diagrama en MermaidJS
-    - [ ] Guardar en `docs/architecture/c4-context.md`
+- [x] **Diseñar diagrama C4 de Contexto del sistema**
+    - [x] Identificar actor externo: Inversionista/Analista (usuario)
+    - [x] Representar el sistema "Top SaaS Dashboard" como caja central (incluye Frontend, Backend y Base de datos Supabase dentro del boundary del sistema)
+    - [x] Mostrar relaciones: usuario → sistema (consulta dashboard para evaluar métricas de empresas SaaS)
+    - [x] Generar diagrama en MermaidJS
+    - [x] Guardar en `docs/architecture/c4-context.md`
 
-- [ ] **Diseñar diagrama C4 de Contenedores del sistema**
-    - [ ] Identificar contenedores: Frontend (Next.js 16), Backend API (FastAPI), Base de datos (PostgreSQL/Supabase)
-    - [ ] Mostrar tecnologías de cada contenedor
-    - [ ] Mostrar protocolos de comunicación: HTTP/REST (frontend → backend), HTTP/PostgREST (backend → Supabase)
-    - [ ] Generar diagrama en MermaidJS
-    - [ ] Guardar en `docs/architecture/c4-containers.md`
+- [x] **Diseñar diagrama C4 de Contenedores del sistema**
+    - [x] Identificar contenedores: Frontend (Next.js 16), Backend API (FastAPI), Base de datos (PostgreSQL/Supabase)
+    - [x] Mostrar tecnologías de cada contenedor
+    - [x] Mostrar protocolos de comunicación: HTTP/REST (frontend → backend), HTTP/PostgREST (backend → Supabase)
+    - [x] La base de datos hace parte del límite del sistema
+    - [x] Generar diagrama en MermaidJS
+    - [x] Guardar en `docs/architecture/c4-containers.md`
 
 ### Diseño de Base de Datos (Modelo Entidad-Relación)
 
-- [ ] **Revisar modelo de datos existente**
-    - [ ] Analizar script `scripts/database/01-top-saas-db-creation.sql` para validar tablas, columnas y tipos de datos
-    - [ ] Verificar relaciones: `company.industry_id` → `industry.id` (many-to-one), `company.location_id` → `location.id` (many-to-one), `company_investor` (many-to-many entre company e investor)
-    - [ ] Verificar tipos de datos: `BIGSERIAL`, `TEXT`, `VARCHAR(255)`, `INTEGER`, `BIGINT`, `REAL`, `TIMESTAMPTZ`
-    - [ ] Verificar índices existentes: `idx_company_industry`, `idx_company_location`, `idx_company_investor_company`, `idx_company_investor_investor`
-    - [ ] Verificar triggers de auditoría (`update_updated_at_column`) en todas las tablas
-    - [ ] Documentar hallazgos y confirmar que no se requieren migraciones
+- [x] **Revisar modelo de datos existente**
+    - [x] Analizar script `scripts/database/01-top-saas-db-creation.sql` para validar tablas, columnas y tipos de datos
+    - [x] Verificar relaciones: `company.industry_id` → `industry.id` (many-to-one), `company.location_id` → `location.id` (many-to-one), `company_investor` (many-to-many entre company e investor)
+    - [x] Verificar tipos de datos: `BIGSERIAL`, `TEXT`, `VARCHAR(255)`, `INTEGER`, `BIGINT`, `REAL`, `TIMESTAMPTZ`
+    - [x] Verificar índices existentes: `idx_company_industry`, `idx_company_location`, `idx_company_investor_company`, `idx_company_investor_investor`
+    - [x] Verificar triggers de auditoría (`update_updated_at_column`) en todas las tablas
+    - [x] Documentar hallazgos y confirmar que no se requieren migraciones
 
-- [ ] **Diseñar diagrama Entidad-Relación (ER) en MermaidJS**
-    - [ ] Modelar entidad `company` con todas sus columnas y tipos
-    - [ ] Modelar entidad `industry` con columnas y constraint UNIQUE en name
-    - [ ] Modelar entidad `location` con columnas
-    - [ ] Modelar entidad `investor` con columnas y constraint UNIQUE en name
-    - [ ] Modelar tabla de asociación `company_investor` con PK compuesta
-    - [ ] Representar relaciones: company ||--o{ industry, company ||--o{ location, company }o--o{ investor (vía company_investor)
-    - [ ] Incluir campos de auditoría (`created_at`, `created_by`, `updated_at`, `updated_by`)
-    - [ ] Guardar en `docs/database/er-diagram.md`
+- [x] **Diseñar diagrama Entidad-Relación (ER) en MermaidJS**
+    - [x] Modelar entidad `company` con todas sus columnas y tipos
+    - [x] Modelar entidad `industry` con columnas y constraint UNIQUE en name
+    - [x] Modelar entidad `location` con columnas
+    - [x] Modelar entidad `investor` con columnas y constraint UNIQUE en name
+    - [x] Modelar tabla de asociación `company_investor` con PK compuesta
+    - [x] Representar relaciones: company ||--o{ industry, company ||--o{ location, company }o--o{ investor (vía company_investor)
+    - [x] Incluir campos de auditoría (`created_at`, `created_by`, `updated_at`, `updated_by`)
+    - [x] Guardar en `docs/database/er-diagram.md`
 
 ### Documentación de Diagramas
 
-- [ ] **Documentar diagrama C4 de Contexto**
-    - [ ] Agregar descripción textual del diagrama
-    - [ ] Explicar actor externo (Inversionista/Analista) y el sistema (Top SaaS Dashboard que incluye Frontend, Backend y DB)
-    - [ ] Incluir diagrama MermaidJS renderizable en el markdown
+- [x] **Documentar diagrama C4 de Contexto**
+    - [x] Agregar descripción textual del diagrama
+    - [x] Explicar actor externo (Inversionista/Analista) y el sistema (Top SaaS Dashboard que incluye Frontend, Backend y DB)
+    - [x] Incluir diagrama MermaidJS renderizable en el markdown
 
-- [ ] **Documentar diagrama C4 de Contenedores**
-    - [ ] Agregar descripción textual de cada contenedor (Frontend Next.js, Backend FastAPI, PostgreSQL Supabase)
-    - [ ] Documentar responsabilidades de cada contenedor
-    - [ ] Documentar protocolos: HTTP/REST (frontend → backend), HTTP/PostgREST (backend → Supabase)
-    - [ ] Incluir diagrama MermaidJS renderizable en el markdown
+- [x] **Documentar diagrama C4 de Contenedores**
+    - [x] Agregar descripción textual de cada contenedor (Frontend Next.js, Backend FastAPI, PostgreSQL Supabase)
+    - [x] Documentar responsabilidades de cada contenedor
+    - [x] Documentar protocolos: HTTP/REST (frontend → backend), HTTP/PostgREST (backend → Supabase)
+    - [x] Incluir diagrama MermaidJS renderizable en el markdown
 
-- [ ] **Documentar diagrama ER de base de datos**
-    - [ ] Agregar descripción textual del modelo de datos
-    - [ ] Documentar cardinalidad de cada relación
-    - [ ] Documentar convenciones de tipos de datos (BIGSERIAL para PKs, BIGINT para monetarios, TIMESTAMPTZ para auditoría)
-    - [ ] Incluir diagrama MermaidJS renderizable en el markdown
+- [x] **Documentar diagrama ER de base de datos**
+    - [x] Agregar descripción textual del modelo de datos
+    - [x] Documentar cardinalidad de cada relación
+    - [x] Documentar convenciones de tipos de datos (BIGSERIAL para PKs, BIGINT para monetarios, TIMESTAMPTZ para auditoría)
+    - [x] Incluir diagrama MermaidJS renderizable en el markdown
 
 ---
 
