@@ -93,34 +93,34 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Dependencias
 
-- [ ] Instalar dependencias de producción del backend:
-    - [ ] `uv add supabase` — cliente oficial de Supabase para Python (incluye PostgREST)
-    - [ ] Verificar compatibilidad con Python 3.12+
+- [x] Instalar dependencias de producción del backend:
+    - [x] `uv add supabase` — cliente oficial de Supabase para Python (incluye PostgREST)
+    - [x] Verificar compatibilidad con Python 3.12+
 
 ### Supabase — Configuración del Cliente
 
-- [ ] Crear módulo de configuración del cliente Supabase (`src/backend/core/supabase_client.py`):
-    - [ ] Crear instancia async del cliente con `create_client` de `supabase._async`
-    - [ ] Configurar con `SUPABASE_URL` y `SUPABASE_KEY` desde Settings
-    - [ ] Implementar dependency `get_supabase` para inyección en FastAPI vía `Depends()`
-    - [ ] Agregar `SUPABASE_URL: str` y `SUPABASE_KEY: str` a la clase `Settings` existente en `main.py`
+- [x] Crear módulo de configuración del cliente Supabase (`src/backend/core/supabase_client.py`):
+    - [x] Crear instancia async del cliente con `create_client` de `supabase._async`
+    - [x] Configurar con `SUPABASE_URL` y `SUPABASE_KEY` desde Settings
+    - [x] Implementar dependency `get_supabase` para inyección en FastAPI vía `Depends()`
+    - [x] Agregar `SUPABASE_URL: str` y `SUPABASE_KEY: str` a la clase `Settings` existente en `main.py`
 
 > **Nota**: No se crean modelos ORM. El acceso a datos se realiza vía el cliente Supabase (PostgREST). Los schemas Pydantic se usan para validar y tipar las respuestas.
 
 ### Schemas Pydantic (Request/Response)
 
-- [ ] Crear schema `IndustryRead` (`src/backend/schemas/industry.py`):
-    - [ ] Campos: `id: int`, `name: str`
+- [x] Crear schema `IndustryRead` (`src/backend/schemas/industry.py`):
+    - [x] Campos: `id: int`, `name: str`
 
-- [ ] Crear schema `LocationRead` (`src/backend/schemas/location.py`):
-    - [ ] Campos: `id: int`, `city: str`, `state: str | None`, `country: str`
+- [x] Crear schema `LocationRead` (`src/backend/schemas/location.py`):
+    - [x] Campos: `id: int`, `city: str`, `state: str | None`, `country: str`
 
-- [ ] Crear schema de paginación genérico (`src/backend/schemas/pagination.py`):
-    - [ ] `PaginatedResponse[T]` con campos: `items: list[T]`, `total: int`, `page: int`, `size: int`, `total_pages: int`
+- [x] Crear schema de paginación genérico (`src/backend/schemas/pagination.py`):
+    - [x] `PaginatedResponse[T]` con campos: `items: list[T]`, `total: int`, `page: int`, `size: int`, `total_pages: int`
 
-- [ ] Crear schemas de company (`src/backend/schemas/company.py`):
-    - [ ] `CompanyRead`: `id`, `name`, `industry` (str), `location` (str formateado "City, Country"), `products`, `founding_year`, `total_funding`, `arr`, `valuation`
-    - [ ] `CompanyListResponse`: tipo alias para `PaginatedResponse[CompanyRead]`
+- [x] Crear schemas de company (`src/backend/schemas/company.py`):
+    - [x] `CompanyRead`: `id`, `name`, `industry` (str), `location` (str formateado "City, Country"), `products`, `founding_year`, `total_funding`, `arr`, `valuation`
+    - [x] `CompanyListResponse`: tipo alias para `PaginatedResponse[CompanyRead]`
 
 ---
 
@@ -128,16 +128,16 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Industrias
 
-- [ ] Crear repositorio de industrias (`src/backend/repositories/industry_repository.py`):
-    - [ ] Método async `get_all(client: AsyncClient) -> list[dict]`: query vía `client.table("industry").select("*").order("name")` 
+- [x] Crear repositorio de industrias (`src/backend/repositories/industry_repository.py`):
+    - [x] Método async `get_all(client: AsyncClient) -> list[dict]`: query vía `client.table("industry").select("*").order("name")` 
 
-- [ ] Crear servicio de industrias (`src/backend/services/industry_service.py`):
-    - [ ] Método async `get_all_industries(client: AsyncClient) -> list[IndustryRead]`: delega al repositorio y convierte a schemas Pydantic
+- [x] Crear servicio de industrias (`src/backend/services/industry_service.py`):
+    - [x] Método async `get_all_industries(client: AsyncClient) -> list[IndustryRead]`: delega al repositorio y convierte a schemas Pydantic
 
-- [ ] Crear router de industrias (`src/backend/api/industries.py`):
-    - [ ] `GET /api/v1/industries` → `response_model=list[IndustryRead]`, `status_code=200`
-    - [ ] Inyectar cliente Supabase vía `Depends(get_supabase)`
-    - [ ] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["industries"]`
+- [x] Crear router de industrias (`src/backend/api/industries.py`):
+    - [x] `GET /api/v1/industries` → `response_model=list[IndustryRead]`, `status_code=200`
+    - [x] Inyectar cliente Supabase vía `Depends(get_supabase)`
+    - [x] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["industries"]`
 
 ### Ubicaciones
 

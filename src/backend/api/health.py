@@ -2,6 +2,8 @@
 
 from datetime import datetime, timezone
 
+from backend.core.settings import settings
+
 from fastapi import APIRouter
 from pydantic import BaseModel
 
@@ -25,8 +27,6 @@ async def health_check() -> HealthResponse:
     Returns:
         HealthResponse: Current health status of the API
     """
-    from backend.main import settings
-
     return HealthResponse(
         status="healthy",
         version=settings.app_version,
