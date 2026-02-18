@@ -141,16 +141,16 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Ubicaciones
 
-- [ ] Crear repositorio de ubicaciones (`src/backend/repositories/location_repository.py`):
-    - [ ] Método async `get_all(client: AsyncClient) -> list[dict]`: query vía `client.table("location").select("*").order("city")`
+- [x] Crear repositorio de ubicaciones (`src/backend/repositories/location_repository.py`):
+    - [x] Método async `get_all(client: AsyncClient) -> list[dict]`: query vía `client.table("location").select("*").order("city")`
 
-- [ ] Crear servicio de ubicaciones (`src/backend/services/location_service.py`):
-    - [ ] Método async `get_all_locations(client: AsyncClient) -> list[LocationRead]`: delega al repositorio y convierte a schemas Pydantic
+- [x] Crear servicio de ubicaciones (`src/backend/services/location_service.py`):
+    - [x] Método async `get_all_locations(client: AsyncClient) -> list[LocationRead]`: delega al repositorio y convierte a schemas Pydantic
 
-- [ ] Crear router de ubicaciones (`src/backend/api/locations.py`):
-    - [ ] `GET /api/v1/locations` → `response_model=list[LocationRead]`, `status_code=200`
-    - [ ] Inyectar cliente Supabase vía `Depends(get_supabase)`
-    - [ ] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["locations"]`
+- [x] Crear router de ubicaciones (`src/backend/api/locations.py`):
+    - [x] `GET /api/v1/locations` → `response_model=list[LocationRead]`, `status_code=200`
+    - [x] Inyectar cliente Supabase vía `Depends(get_supabase)`
+    - [x] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["locations"]`
 
 ---
 
