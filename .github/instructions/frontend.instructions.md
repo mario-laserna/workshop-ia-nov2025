@@ -76,7 +76,7 @@ Propósito: generar componentes React, páginas, API routes y UI accesible, con 
   - React Testing Library para tests de componentes.
   - Playwright o Cypress para E2E tests.
   - Coverage mínimo del 60%.
-  - Tests en carpeta `__tests__/` junto a componentes o en `/tests`.
+  - Tests en carpeta `src/frontend/__tests__/` para tests de componentes y utilidades.
 
 - Tipos y validación:
   - Definir interfaces/types en archivos `.types.ts` o carpeta `types/`.

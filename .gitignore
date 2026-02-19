@@ -50,6 +50,16 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# Backend coverage
+src/backend/htmlcov/
+src/backend/.coverage
+src/backend/.coverage.*
+src/backend/.pytest_cache/
+
+# Frontend coverage
+src/frontend/coverage/
+src/frontend/__tests__/__snapshots__/
+
 # Translations
 *.mo
 *.pot

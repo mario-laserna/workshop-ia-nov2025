@@ -13,7 +13,10 @@ workshop-ia-nov2025-prep/
 │   ├── database/         # Scripts SQL y dataset
 │   └── dev/              # Scripts de desarrollo (run-backend.sh, run-frontend.sh)
 ├── docs/adrs/            # Decisiones arquitectónicas
-└── tests/                # Pruebas unitarias e integración
+│
+│   # Tests dentro de cada proyecto:
+│   # src/backend/tests/       - Tests del backend (pytest)
+│   # src/frontend/__tests__/  - Tests del frontend (Vitest)
 ```
 
 ## 🚀 Quick Start

@@ -93,34 +93,34 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Dependencias
 
-- [ ] Instalar dependencias de producción del backend:
-    - [ ] `uv add supabase` — cliente oficial de Supabase para Python (incluye PostgREST)
-    - [ ] Verificar compatibilidad con Python 3.12+
+- [x] Instalar dependencias de producción del backend:
+    - [x] `uv add supabase` — cliente oficial de Supabase para Python (incluye PostgREST)
+    - [x] Verificar compatibilidad con Python 3.12+
 
 ### Supabase — Configuración del Cliente
 
-- [ ] Crear módulo de configuración del cliente Supabase (`src/backend/core/supabase_client.py`):
-    - [ ] Crear instancia async del cliente con `create_client` de `supabase._async`
-    - [ ] Configurar con `SUPABASE_URL` y `SUPABASE_KEY` desde Settings
-    - [ ] Implementar dependency `get_supabase` para inyección en FastAPI vía `Depends()`
-    - [ ] Agregar `SUPABASE_URL: str` y `SUPABASE_KEY: str` a la clase `Settings` existente en `main.py`
+- [x] Crear módulo de configuración del cliente Supabase (`src/backend/core/supabase_client.py`):
+    - [x] Crear instancia async del cliente con `create_client` de `supabase._async`
+    - [x] Configurar con `SUPABASE_URL` y `SUPABASE_KEY` desde Settings
+    - [x] Implementar dependency `get_supabase` para inyección en FastAPI vía `Depends()`
+    - [x] Agregar `SUPABASE_URL: str` y `SUPABASE_KEY: str` a la clase `Settings` existente en `main.py`
 
 > **Nota**: No se crean modelos ORM. El acceso a datos se realiza vía el cliente Supabase (PostgREST). Los schemas Pydantic se usan para validar y tipar las respuestas.
 
 ### Schemas Pydantic (Request/Response)
 
-- [ ] Crear schema `IndustryRead` (`src/backend/schemas/industry.py`):
-    - [ ] Campos: `id: int`, `name: str`
+- [x] Crear schema `IndustryRead` (`src/backend/schemas/industry.py`):
+    - [x] Campos: `id: int`, `name: str`
 
-- [ ] Crear schema `LocationRead` (`src/backend/schemas/location.py`):
-    - [ ] Campos: `id: int`, `city: str`, `state: str | None`, `country: str`
+- [x] Crear schema `LocationRead` (`src/backend/schemas/location.py`):
+    - [x] Campos: `id: int`, `city: str`, `state: str | None`, `country: str`
 
-- [ ] Crear schema de paginación genérico (`src/backend/schemas/pagination.py`):
-    - [ ] `PaginatedResponse[T]` con campos: `items: list[T]`, `total: int`, `page: int`, `size: int`, `total_pages: int`
+- [x] Crear schema de paginación genérico (`src/backend/schemas/pagination.py`):
+    - [x] `PaginatedResponse[T]` con campos: `items: list[T]`, `total: int`, `page: int`, `size: int`, `total_pages: int`
 
-- [ ] Crear schemas de company (`src/backend/schemas/company.py`):
-    - [ ] `CompanyRead`: `id`, `name`, `industry` (str), `location` (str formateado "City, Country"), `products`, `founding_year`, `total_funding`, `arr`, `valuation`
-    - [ ] `CompanyListResponse`: tipo alias para `PaginatedResponse[CompanyRead]`
+- [x] Crear schemas de company (`src/backend/schemas/company.py`):
+    - [x] `CompanyRead`: `id`, `name`, `industry` (str), `location` (str formateado "City, Country"), `products`, `founding_year`, `total_funding`, `arr`, `valuation`
+    - [x] `CompanyListResponse`: tipo alias para `PaginatedResponse[CompanyRead]`
 
 ---
 
@@ -128,29 +128,29 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Industrias
 
-- [ ] Crear repositorio de industrias (`src/backend/repositories/industry_repository.py`):
-    - [ ] Método async `get_all(client: AsyncClient) -> list[dict]`: query vía `client.table("industry").select("*").order("name")` 
+- [x] Crear repositorio de industrias (`src/backend/repositories/industry_repository.py`):
+    - [x] Método async `get_all(client: AsyncClient) -> list[dict]`: query vía `client.table("industry").select("*").order("name")` 
 
-- [ ] Crear servicio de industrias (`src/backend/services/industry_service.py`):
-    - [ ] Método async `get_all_industries(client: AsyncClient) -> list[IndustryRead]`: delega al repositorio y convierte a schemas Pydantic
+- [x] Crear servicio de industrias (`src/backend/services/industry_service.py`):
+    - [x] Método async `get_all_industries(client: AsyncClient) -> list[IndustryRead]`: delega al repositorio y convierte a schemas Pydantic
 
-- [ ] Crear router de industrias (`src/backend/api/industries.py`):
-    - [ ] `GET /api/v1/industries` → `response_model=list[IndustryRead]`, `status_code=200`
-    - [ ] Inyectar cliente Supabase vía `Depends(get_supabase)`
-    - [ ] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["industries"]`
+- [x] Crear router de industrias (`src/backend/api/industries.py`):
+    - [x] `GET /api/v1/industries` → `response_model=list[IndustryRead]`, `status_code=200`
+    - [x] Inyectar cliente Supabase vía `Depends(get_supabase)`
+    - [x] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["industries"]`
 
 ### Ubicaciones
 
-- [ ] Crear repositorio de ubicaciones (`src/backend/repositories/location_repository.py`):
-    - [ ] Método async `get_all(client: AsyncClient) -> list[dict]`: query vía `client.table("location").select("*").order("city")`
+- [x] Crear repositorio de ubicaciones (`src/backend/repositories/location_repository.py`):
+    - [x] Método async `get_all(client: AsyncClient) -> list[dict]`: query vía `client.table("location").select("*").order("city")`
 
-- [ ] Crear servicio de ubicaciones (`src/backend/services/location_service.py`):
-    - [ ] Método async `get_all_locations(client: AsyncClient) -> list[LocationRead]`: delega al repositorio y convierte a schemas Pydantic
+- [x] Crear servicio de ubicaciones (`src/backend/services/location_service.py`):
+    - [x] Método async `get_all_locations(client: AsyncClient) -> list[LocationRead]`: delega al repositorio y convierte a schemas Pydantic
 
-- [ ] Crear router de ubicaciones (`src/backend/api/locations.py`):
-    - [ ] `GET /api/v1/locations` → `response_model=list[LocationRead]`, `status_code=200`
-    - [ ] Inyectar cliente Supabase vía `Depends(get_supabase)`
-    - [ ] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["locations"]`
+- [x] Crear router de ubicaciones (`src/backend/api/locations.py`):
+    - [x] `GET /api/v1/locations` → `response_model=list[LocationRead]`, `status_code=200`
+    - [x] Inyectar cliente Supabase vía `Depends(get_supabase)`
+    - [x] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["locations"]`
 
 ---
 
@@ -158,39 +158,39 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Repositorio de Empresas
 
-- [ ] Crear repositorio de empresas (`src/backend/repositories/company_repository.py`):
-    - [ ] Método async `get_all(client, industry_id?, location_id?, page, size) -> list[dict]`:
-        - [ ] Construir query base con `client.table("company").select("*, industry(name), location(city, state, country)")`
-        - [ ] Aplicar filtro `.eq("industry_id", industry_id)` si se provee
-        - [ ] Aplicar filtro `.eq("location_id", location_id)` si se provee
-        - [ ] Aplicar paginación offset-based con `.range(start, end)` donde `start = (page - 1) * size` y `end = start + size - 1`
-    - [ ] Método async `count(client, industry_id?, location_id?) -> int`:
-        - [ ] Query con `.select("*", count="exact", head=True)` con mismos filtros opcionales
-        - [ ] Retornar `count` de la respuesta para metadata de paginación
+- [x] Crear repositorio de empresas (`src/backend/repositories/company_repository.py`):
+    - [x] Método async `get_all(client, industry_id?, location_id?, page, size) -> list[dict]`:
+        - [x] Construir query base con `client.table("company").select("*, industry(name), location(city, state, country)")`
+        - [x] Aplicar filtro `.eq("industry_id", industry_id)` si se provee
+        - [x] Aplicar filtro `.eq("location_id", location_id)` si se provee
+        - [x] Aplicar paginación offset-based con `.range(start, end)` donde `start = (page - 1) * size` y `end = start + size - 1`
+    - [x] Método async `count(client, industry_id?, location_id?) -> int`:
+        - [x] Query con `.select("*", count="exact", head=True)` con mismos filtros opcionales
+        - [x] Retornar `count` de la respuesta para metadata de paginación
 
 > **Nota**: El cliente Supabase (PostgREST) soporta queries con relaciones embebidas. Usar `select("*, industry(name), location(city, state, country)")` para obtener datos de tablas relacionadas en una sola llamada, evitando N+1.
 
 ### Servicio de Empresas
 
-- [ ] Crear servicio de empresas (`src/backend/services/company_service.py`):
-    - [ ] Método async `get_companies(client, industry_id?, location_id?, page, size) -> CompanyListResponse`:
-        - [ ] Llamar a `company_repository.get_all(...)` para obtener empresas
-        - [ ] Llamar a `company_repository.count(...)` para obtener total
-        - [ ] Calcular `total_pages = ceil(total / size)`
-        - [ ] Transformar datos crudos (dict) a `CompanyRead` schemas (formatear industry/location como strings)
-        - [ ] Construir y retornar `CompanyListResponse` con items, total, page, size, total_pages
+- [x] Crear servicio de empresas (`src/backend/services/company_service.py`):
+    - [x] Método async `get_companies(client, industry_id?, location_id?, page, size) -> CompanyListResponse`:
+        - [x] Llamar a `company_repository.get_all(...)` para obtener empresas
+        - [x] Llamar a `company_repository.count(...)` para obtener total
+        - [x] Calcular `total_pages = ceil(total / size)`
+        - [x] Transformar datos crudos (dict) a `CompanyRead` schemas (formatear industry/location como strings)
+        - [x] Construir y retornar `CompanyListResponse` con items, total, page, size, total_pages
 
 ### Router de Empresas
 
-- [ ] Crear router de empresas (`src/backend/api/companies.py`):
-    - [ ] `GET /api/v1/companies` con query params:
-        - [ ] `industry_id: int | None = Query(default=None)` — filtro opcional por industria
-        - [ ] `location_id: int | None = Query(default=None)` — filtro opcional por ubicación
-        - [ ] `page: int = Query(default=1, ge=1)` — número de página
-        - [ ] `size: int = Query(default=20, ge=1, le=100)` — elementos por página
-    - [ ] `response_model=CompanyListResponse`, `status_code=200`
-    - [ ] Inyectar cliente Supabase vía `Depends(get_supabase)`
-    - [ ] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["companies"]`
+- [x] Crear router de empresas (`src/backend/api/companies.py`):
+    - [x] `GET /api/v1/companies` con query params:
+        - [x] `industry_id: int | None = Query(default=None)` — filtro opcional por industria
+        - [x] `location_id: int | None = Query(default=None)` — filtro opcional por ubicación
+        - [x] `page: int = Query(default=1, ge=1)` — número de página
+        - [x] `size: int = Query(default=20, ge=1, le=100)` — elementos por página
+    - [x] `response_model=CompanyListResponse`, `status_code=200`
+    - [x] Inyectar cliente Supabase vía `Depends(get_supabase)`
+    - [x] Registrar router en `main.py` con `prefix="/api/v1"` y `tags=["companies"]`
 
 ---
 
@@ -200,7 +200,7 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 - [ ] Instalar dependencias de testing:
     - [ ] `uv add --dev pytest pytest-asyncio httpx`
-- [ ] Crear `tests/backend/conftest.py`:
+- [ ] Crear `src/backend/tests/conftest.py`:
     - [ ] Fixture de `TestClient` con `httpx.AsyncClient` o FastAPI `TestClient`
     - [ ] Fixture de mock del cliente Supabase (`AsyncMock`)
     - [ ] Configurar override de dependency `get_supabase` para usar mocks
@@ -208,21 +208,21 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Tests de Endpoint de Industrias
 
-- [ ] Crear `tests/backend/api/test_industries.py`:
+- [ ] Crear `src/backend/tests/api/test_industries.py`:
     - [ ] Happy path: `GET /api/v1/industries` retorna lista de industrias con status 200
     - [ ] Caso límite: retorna lista vacía `[]` cuando no hay industrias
     - [ ] Verificar formato de respuesta: cada item tiene `id` (int) y `name` (str)
 
 ### Tests de Endpoint de Ubicaciones
 
-- [ ] Crear `tests/backend/api/test_locations.py`:
+- [ ] Crear `src/backend/tests/api/test_locations.py`:
     - [ ] Happy path: `GET /api/v1/locations` retorna lista de ubicaciones con status 200
     - [ ] Caso límite: retorna lista vacía `[]` cuando no hay ubicaciones
     - [ ] Verificar formato de respuesta: cada item tiene `id`, `city`, `state`, `country`
 
 ### Tests de Endpoint de Empresas
 
-- [ ] Crear `tests/backend/api/test_companies.py`:
+- [ ] Crear `src/backend/tests/api/test_companies.py`:
     - [ ] Happy path: `GET /api/v1/companies` retorna lista paginada con status 200
     - [ ] Filtro por industria: `?industry_id=1` retorna solo empresas de esa industria
     - [ ] Filtro por ubicación: `?location_id=1` retorna solo empresas de esa ubicación
@@ -233,32 +233,32 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Tests de Servicios (Unit Tests)
 
-- [ ] Crear `tests/backend/services/test_company_service.py`:
+- [ ] Crear `src/backend/tests/services/test_company_service.py`:
     - [ ] Test de cálculo correcto de `total_pages` (ej. 100 items, size 20 → 5 pages)
     - [ ] Test de delegación correcta al repositorio con parámetros
     - [ ] Test con total = 0 retorna response válida con 0 pages
 
-- [ ] Crear `tests/backend/services/test_industry_service.py`:
+- [ ] Crear `src/backend/tests/services/test_industry_service.py`:
     - [ ] Test de delegación al repositorio
     - [ ] Test con lista vacía
 
-- [ ] Crear `tests/backend/services/test_location_service.py`:
+- [ ] Crear `src/backend/tests/services/test_location_service.py`:
     - [ ] Test de delegación al repositorio
     - [ ] Test con lista vacía
 
 ### Tests de Repositorios (Unit Tests)
 
-- [ ] Crear `tests/backend/repositories/test_company_repository.py`:
+- [ ] Crear `src/backend/tests/repositories/test_company_repository.py`:
     - [ ] Test de query sin filtros llama a `client.table("company").select(...)` sin `.eq()`
     - [ ] Test de query con filtro `industry_id` verifica que se llama `.eq("industry_id", ...)` en el mock
     - [ ] Test de query con filtro `location_id` verifica que se llama `.eq("location_id", ...)` en el mock
     - [ ] Test de paginación: verifica `.range(start, end)` con valores correctos
     - [ ] Test de `count()` verifica uso de `count="exact"` y `head=True`
 
-- [ ] Crear `tests/backend/repositories/test_industry_repository.py`:
+- [ ] Crear `src/backend/tests/repositories/test_industry_repository.py`:
     - [ ] Test de `get_all()` verifica que se llama `.order("name")` en el mock
 
-- [ ] Crear `tests/backend/repositories/test_location_repository.py`:
+- [ ] Crear `src/backend/tests/repositories/test_location_repository.py`:
     - [ ] Test de `get_all()` verifica que se llama `.order("city")` en el mock
 
 ---
