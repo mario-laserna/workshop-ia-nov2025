@@ -62,7 +62,7 @@ async def count(
     Returns:
         Total number of matching companies.
     """
-    query = client.table("company").select("*", count="exact", head=True)
+    query = client.table("company").select("*", count="exact", head=True)  # type: ignore
 
     if industry_id is not None:
         query = query.eq("industry_id", industry_id)
