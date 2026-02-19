@@ -2,10 +2,10 @@
 
 from datetime import datetime, timezone
 
-from backend.core.settings import settings
-
 from fastapi import APIRouter
 from pydantic import BaseModel
+
+from backend.core.settings import settings
 
 router = APIRouter()
 

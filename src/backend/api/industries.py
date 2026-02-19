@@ -3,7 +3,6 @@
 from fastapi import APIRouter, Depends
 from supabase._async.client import AsyncClient
 
-from backend.core.settings import settings
 from backend.core.supabase_client import get_supabase
 from backend.schemas.industry import IndustryRead
 from backend.services import industry_service
