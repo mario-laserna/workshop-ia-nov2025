@@ -267,24 +267,24 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Tipos TypeScript
 
-- [ ] Extender tipos TypeScript (`src/frontend/lib/types.ts`):
-    - [ ] Interface `Company`: `id`, `name`, `industry` (string), `location` (string), `products`, `founding_year`, `total_funding`, `arr`, `valuation`
-    - [ ] Interface `Industry`: `id`, `name`
-    - [ ] Interface `Location`: `id`, `city`, `state` (nullable), `country`
-    - [ ] Interface genérica `PaginatedResponse<T>`: `items: T[]`, `total`, `page`, `size`, `total_pages`
-    - [ ] Type alias `CompanyListResponse = PaginatedResponse<Company>`
+- [x] Extender tipos TypeScript (`src/frontend/lib/types.ts`):
+    - [x] Interface `Company`: `id`, `name`, `industry` (string), `location` (string), `products`, `founding_year`, `total_funding`, `arr`, `valuation`
+    - [x] Interface `Industry`: `id`, `name`
+    - [x] Interface `Location`: `id`, `city`, `state` (nullable), `country`
+    - [x] Interface genérica `PaginatedResponse<T>`: `items: T[]`, `total`, `page`, `size`, `total_pages`
+    - [x] Type alias `CompanyListResponse = PaginatedResponse<Company>`
 
 ### API Client
 
-- [ ] Extender API client (`src/frontend/lib/api.ts`):
-    - [ ] Función `fetchCompanies(params?: { industry_id?, location_id?, page?, size? }): Promise<CompanyListResponse>`:
-        - [ ] Construir query string con parámetros opcionales
-        - [ ] Fetch a `GET /api/v1/companies?...`
-        - [ ] Manejo de errores HTTP consistente
-    - [ ] Función `fetchIndustries(): Promise<Industry[]>`:
-        - [ ] Fetch a `GET /api/v1/industries`
-    - [ ] Función `fetchLocations(): Promise<Location[]>`:
-        - [ ] Fetch a `GET /api/v1/locations`
+- [x] Extender API client (`src/frontend/lib/api.ts`):
+    - [x] Función `fetchCompanies(params?: { industry_id?, location_id?, page?, size? }): Promise<CompanyListResponse>`:
+        - [x] Construir query string con parámetros opcionales
+        - [x] Fetch a `GET /api/v1/companies?...`
+        - [x] Manejo de errores HTTP consistente
+    - [x] Función `fetchIndustries(): Promise<Industry[]>`:
+        - [x] Fetch a `GET /api/v1/industries`
+    - [x] Función `fetchLocations(): Promise<Location[]>`:
+        - [x] Fetch a `GET /api/v1/locations`
 
 ---
 
