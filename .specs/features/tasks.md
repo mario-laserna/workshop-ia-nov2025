@@ -198,68 +198,68 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Configuración de Infraestructura de Tests
 
-- [ ] Instalar dependencias de testing:
-    - [ ] `uv add --dev pytest pytest-asyncio httpx`
-- [ ] Crear `src/backend/tests/conftest.py`:
-    - [ ] Fixture de `TestClient` con `httpx.AsyncClient` o FastAPI `TestClient`
-    - [ ] Fixture de mock del cliente Supabase (`AsyncMock`)
-    - [ ] Configurar override de dependency `get_supabase` para usar mocks
-    - [ ] Crear datos de prueba (factories/fixtures) para Company, Industry, Location como dicts (formato PostgREST)
+- [x] Instalar dependencias de testing:
+    - [x] `uv add --dev pytest pytest-asyncio httpx`
+- [x] Crear `src/backend/tests/conftest.py`:
+    - [x] Fixture de `TestClient` con `httpx.AsyncClient` o FastAPI `TestClient`
+    - [x] Fixture de mock del cliente Supabase (`AsyncMock`)
+    - [x] Configurar override de dependency `get_supabase` para usar mocks
+    - [x] Crear datos de prueba (factories/fixtures) para Company, Industry, Location como dicts (formato PostgREST)
 
 ### Tests de Endpoint de Industrias
 
-- [ ] Crear `src/backend/tests/api/test_industries.py`:
-    - [ ] Happy path: `GET /api/v1/industries` retorna lista de industrias con status 200
-    - [ ] Caso límite: retorna lista vacía `[]` cuando no hay industrias
-    - [ ] Verificar formato de respuesta: cada item tiene `id` (int) y `name` (str)
+- [x] Crear `src/backend/tests/api/test_industries.py`:
+    - [x] Happy path: `GET /api/v1/industries` retorna lista de industrias con status 200
+    - [x] Caso límite: retorna lista vacía `[]` cuando no hay industrias
+    - [x] Verificar formato de respuesta: cada item tiene `id` (int) y `name` (str)
 
 ### Tests de Endpoint de Ubicaciones
 
-- [ ] Crear `src/backend/tests/api/test_locations.py`:
-    - [ ] Happy path: `GET /api/v1/locations` retorna lista de ubicaciones con status 200
-    - [ ] Caso límite: retorna lista vacía `[]` cuando no hay ubicaciones
-    - [ ] Verificar formato de respuesta: cada item tiene `id`, `city`, `state`, `country`
+- [x] Crear `src/backend/tests/api/test_locations.py`:
+    - [x] Happy path: `GET /api/v1/locations` retorna lista de ubicaciones con status 200
+    - [x] Caso límite: retorna lista vacía `[]` cuando no hay ubicaciones
+    - [x] Verificar formato de respuesta: cada item tiene `id`, `city`, `state`, `country`
 
 ### Tests de Endpoint de Empresas
 
-- [ ] Crear `src/backend/tests/api/test_companies.py`:
-    - [ ] Happy path: `GET /api/v1/companies` retorna lista paginada con status 200
-    - [ ] Filtro por industria: `?industry_id=1` retorna solo empresas de esa industria
-    - [ ] Filtro por ubicación: `?location_id=1` retorna solo empresas de esa ubicación
-    - [ ] Filtros combinados: `?industry_id=1&location_id=2` retorna intersección
-    - [ ] Paginación: `?page=2&size=10` retorna segundo lote de resultados
-    - [ ] Caso límite: filtro sin resultados retorna `items: []` con `total: 0`
-    - [ ] Error de validación: `?page=0` o `?size=200` retorna status 422
+- [x] Crear `src/backend/tests/api/test_companies.py`:
+    - [x] Happy path: `GET /api/v1/companies` retorna lista paginada con status 200
+    - [x] Filtro por industria: `?industry_id=1` retorna solo empresas de esa industria
+    - [x] Filtro por ubicación: `?location_id=1` retorna solo empresas de esa ubicación
+    - [x] Filtros combinados: `?industry_id=1&location_id=2` retorna intersección
+    - [x] Paginación: `?page=2&size=10` retorna segundo lote de resultados
+    - [x] Caso límite: filtro sin resultados retorna `items: []` con `total: 0`
+    - [x] Error de validación: `?page=0` o `?size=200` retorna status 422
 
 ### Tests de Servicios (Unit Tests)
 
-- [ ] Crear `src/backend/tests/services/test_company_service.py`:
-    - [ ] Test de cálculo correcto de `total_pages` (ej. 100 items, size 20 → 5 pages)
-    - [ ] Test de delegación correcta al repositorio con parámetros
-    - [ ] Test con total = 0 retorna response válida con 0 pages
+- [x] Crear `src/backend/tests/services/test_company_service.py`:
+    - [x] Test de cálculo correcto de `total_pages` (ej. 100 items, size 20 → 5 pages)
+    - [x] Test de delegación correcta al repositorio con parámetros
+    - [x] Test con total = 0 retorna response válida con 0 pages
 
-- [ ] Crear `src/backend/tests/services/test_industry_service.py`:
-    - [ ] Test de delegación al repositorio
-    - [ ] Test con lista vacía
+- [x] Crear `src/backend/tests/services/test_industry_service.py`:
+    - [x] Test de delegación al repositorio
+    - [x] Test con lista vacía
 
-- [ ] Crear `src/backend/tests/services/test_location_service.py`:
-    - [ ] Test de delegación al repositorio
-    - [ ] Test con lista vacía
+- [x] Crear `src/backend/tests/services/test_location_service.py`:
+    - [x] Test de delegación al repositorio
+    - [x] Test con lista vacía
 
 ### Tests de Repositorios (Unit Tests)
 
-- [ ] Crear `src/backend/tests/repositories/test_company_repository.py`:
-    - [ ] Test de query sin filtros llama a `client.table("company").select(...)` sin `.eq()`
-    - [ ] Test de query con filtro `industry_id` verifica que se llama `.eq("industry_id", ...)` en el mock
-    - [ ] Test de query con filtro `location_id` verifica que se llama `.eq("location_id", ...)` en el mock
-    - [ ] Test de paginación: verifica `.range(start, end)` con valores correctos
-    - [ ] Test de `count()` verifica uso de `count="exact"` y `head=True`
+- [x] Crear `src/backend/tests/repositories/test_company_repository.py`:
+    - [x] Test de query sin filtros llama a `client.table("company").select(...)` sin `.eq()`
+    - [x] Test de query con filtro `industry_id` verifica que se llama `.eq("industry_id", ...)` en el mock
+    - [x] Test de query con filtro `location_id` verifica que se llama `.eq("location_id", ...)` en el mock
+    - [x] Test de paginación: verifica `.range(start, end)` con valores correctos
+    - [x] Test de `count()` verifica uso de `count="exact"` y `head=True`
 
-- [ ] Crear `src/backend/tests/repositories/test_industry_repository.py`:
-    - [ ] Test de `get_all()` verifica que se llama `.order("name")` en el mock
+- [x] Crear `src/backend/tests/repositories/test_industry_repository.py`:
+    - [x] Test de `get_all()` verifica que se llama `.order("name")` en el mock
 
-- [ ] Crear `src/backend/tests/repositories/test_location_repository.py`:
-    - [ ] Test de `get_all()` verifica que se llama `.order("city")` en el mock
+- [x] Crear `src/backend/tests/repositories/test_location_repository.py`:
+    - [x] Test de `get_all()` verifica que se llama `.order("city")` en el mock
 
 ---
 
