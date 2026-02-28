@@ -21,7 +21,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     yield
     print("👋 Shutting down...")
 
-
+# inicializacion
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
