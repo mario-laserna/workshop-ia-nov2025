@@ -292,56 +292,56 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Componentes
 
-- [ ] Crear componente `CompanyFilters` (`src/frontend/components/CompanyFilters.tsx`):
-    - [ ] Client Component (`'use client'`)
-    - [ ] Props: `industries: Industry[]`, `locations: Location[]`
-    - [ ] Dropdown de industria con opciones dinámicas
-    - [ ] Dropdown de ubicación con opciones dinámicas
-    - [ ] Al cambiar selección, actualizar URL search params vía `useRouter()` + `useSearchParams()`
-    - [ ] Botón "Limpiar filtros" que resetea search params
-    - [ ] Estilo con Tailwind CSS, tema oscuro (slate-900/800)
+- [x] Crear componente `CompanyFilters` (`src/frontend/components/CompanyFilters.tsx`):
+    - [x] Client Component (`'use client'`)
+    - [x] Props: `industries: Industry[]`, `locations: Location[]`
+    - [x] Dropdown de industria con opciones dinámicas
+    - [x] Dropdown de ubicación con opciones dinámicas
+    - [x] Al cambiar selección, actualizar URL search params vía `useRouter()` + `useSearchParams()`
+    - [x] Botón "Limpiar filtros" que resetea search params
+    - [x] Estilo con Tailwind CSS, tema oscuro (slate-900/800)
 
-- [ ] Crear componente `CompanyTable` (`src/frontend/components/CompanyTable.tsx`):
-    - [ ] Server Component (recibe datos como props)
-    - [ ] Props: `companies: Company[]`
-    - [ ] Formato tabular HTML (`<table>`) — no cards
-    - [ ] Columnas: nombre, industria, ubicación, productos, año fundación, total inversión, ingresos anuales, valoración
-    - [ ] Formateo de moneda: `$X.XM` / `$X.XB` para funding, ARR, valuation
-    - [ ] Empty state: mensaje cuando `companies.length === 0`
-    - [ ] Responsivo: `overflow-x-auto` para scroll horizontal en mobile
-    - [ ] Estilo con Tailwind CSS, tema oscuro
+- [x] Crear componente `CompanyTable` (`src/frontend/components/CompanyTable.tsx`):
+    - [x] Server Component (recibe datos como props)
+    - [x] Props: `companies: Company[]`
+    - [x] Formato tabular HTML (`<table>`) — no cards
+    - [x] Columnas: nombre, industria, ubicación, productos, año fundación, total inversión, ingresos anuales, valoración
+    - [x] Formateo de moneda: `$X.XM` / `$X.XB` para funding, ARR, valuation
+    - [x] Empty state: mensaje cuando `companies.length === 0`
+    - [x] Responsivo: `overflow-x-auto` para scroll horizontal en mobile
+    - [x] Estilo con Tailwind CSS, tema oscuro
 
-- [ ] Crear componente `Pagination` (`src/frontend/components/Pagination.tsx`):
-    - [ ] Client Component (`'use client'`)
-    - [ ] Props: `page: number`, `totalPages: number`, `total: number`
-    - [ ] Botón "Anterior" (disabled si page = 1)
-    - [ ] Botón "Siguiente" (disabled si page = totalPages)
-    - [ ] Indicador "Página X de Y"
-    - [ ] Indicador total de registros
-    - [ ] Actualiza `page` en URL search params
+- [x] Crear componente `Pagination` (`src/frontend/components/Pagination.tsx`):
+    - [x] Client Component (`'use client'`)
+    - [x] Props: `page: number`, `totalPages: number`, `total: number`
+    - [x] Botón "Anterior" (disabled si page = 1)
+    - [x] Botón "Siguiente" (disabled si page = totalPages)
+    - [x] Indicador "Página X de Y"
+    - [x] Indicador total de registros
+    - [x] Actualiza `page` en URL search params
 
 ### Estados de la Página
 
-- [ ] Crear loading state (`src/frontend/app/loading.tsx`):
-    - [ ] Skeleton de tabla con placeholders animados (`animate-pulse`)
-    - [ ] Placeholder para filtros y paginación
-    - [ ] Estilo consistente con tema oscuro
+- [x] Crear loading state (`src/frontend/app/loading.tsx`):
+    - [x] Skeleton de tabla con placeholders animados (`animate-pulse`)
+    - [x] Placeholder para filtros y paginación
+    - [x] Estilo consistente con tema oscuro
 
-- [ ] Crear error boundary (`src/frontend/app/error.tsx`):
-    - [ ] Client Component (`'use client'`)
-    - [ ] Mensaje de error claro
-    - [ ] Botón "Reintentar" que llama a `reset()`
-    - [ ] Estilo consistente con tema oscuro
+- [x] Crear error boundary (`src/frontend/app/error.tsx`):
+    - [x] Client Component (`'use client'`)
+    - [x] Mensaje de error claro
+    - [x] Botón "Reintentar" que llama a `reset()`
+    - [x] Estilo consistente con tema oscuro
 
 ### Página Principal
 
-- [ ] Refactorizar página principal (`src/frontend/app/page.tsx`):
-    - [ ] Convertir a Server Component (remover `'use client'`)
-    - [ ] Leer `searchParams` de la URL: `industry_id`, `location_id`, `page`
-    - [ ] Fetch paralelo con `Promise.all`: empresas + industrias + ubicaciones desde el backend
-    - [ ] Componer layout: `CompanyFilters` + `CompanyTable` + `Pagination`
-    - [ ] Mantener header con título "Top SaaS Dashboard"
-    - [ ] Estilo con Tailwind CSS, tema oscuro (slate-900/800)
+- [x] Refactorizar página principal (`src/frontend/app/page.tsx`):
+    - [x] Convertir a Server Component (remover `'use client'`)
+    - [x] Leer `searchParams` de la URL: `industry_id`, `location_id`, `page`
+    - [x] Fetch paralelo con `Promise.all`: empresas + industrias + ubicaciones desde el backend
+    - [x] Componer layout: `CompanyFilters` + `CompanyTable` + `Pagination`
+    - [x] Mantener header con título "Top SaaS Dashboard"
+    - [x] Estilo con Tailwind CSS, tema oscuro (slate-900/800)
 
 ---
 

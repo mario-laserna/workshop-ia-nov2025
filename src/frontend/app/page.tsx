@@ -1,179 +1,90 @@
-"use client";
+import { fetchCompanies, fetchIndustries, fetchLocations } from "@/lib/api";
+import CompanyFilters from "@/components/CompanyFilters";
+import CompanyTable from "@/components/CompanyTable";
+import Pagination from "@/components/Pagination";
 
-import useSWR from "swr";
-import { fetchHealth } from "@/lib/api";
-import { HealthResponse } from "@/lib/types";
+interface PageProps {
+  searchParams: Promise<{
+    industry_id?: string;
+    location_id?: string;
+    page?: string;
+  }>;
+}
 
-export default function Home() {
-  const { data, error, isLoading } = useSWR<HealthResponse>(
-    "/api/v1/health",
-    fetchHealth,
-    { refreshInterval: 30000 },
-  );
+/**
+ * Server Component — Top SaaS Dashboard.
+ * Reads URL search params to apply filters and pagination,
+ * fetches data in parallel from the backend, and renders the dashboard.
+ */
+export default async function Home({ searchParams }: PageProps) {
+  const params = await searchParams;
 
-  const isHealthy = data?.status === "healthy";
+  const industryId = params.industry_id
+    ? Number(params.industry_id)
+    : undefined;
+  const locationId = params.location_id
+    ? Number(params.location_id)
+    : undefined;
+  const page = params.page ? Number(params.page) : 1;
+
+  const [companiesResponse, industries, locations] = await Promise.all([
+    fetchCompanies({ industry_id: industryId, location_id: locationId, page }),
+    fetchIndustries(),
+    fetchLocations(),
+  ]);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 to-slate-800 flex flex-col">
-      {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center px-4 py-20">
-        <div className="max-w-2xl w-full">
-          {/* Title */}
-          <h1 className="text-5xl font-bold text-white mb-4 text-center">
-            Top SaaS Workshop
-          </h1>
-          <p className="text-xl text-slate-300 mb-12 text-center">
-            Backend and Frontend Integration Demo
+    <div className="min-h-screen bg-linear-to-br from-slate-900 to-slate-800">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        {/* Header */}
+        <header className="mb-8">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-600/20">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-cyan-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold text-white">
+              Top SaaS Dashboard
+            </h1>
+          </div>
+          <p className="mt-2 text-sm text-slate-400">
+            Analiza y compara las principales empresas SaaS por industria,
+            ubicacion, inversion y valoracion.
           </p>
+        </header>
 
-          {/* Backend Status Card */}
-          <div className="bg-slate-800 rounded-lg shadow-2xl p-8 border border-slate-700">
-            <div className="flex items-center gap-4 mb-6">
-              <div
-                className={`w-4 h-4 rounded-full ${isHealthy
-                    ? "bg-green-500 animate-pulse"
-                    : error
-                      ? "bg-red-500 animate-pulse"
-                      : "bg-yellow-500 animate-pulse"
-                  }`}
-              />
-              <h2 className="text-2xl font-semibold text-white">
-                Backend Status
-              </h2>
-            </div>
+        {/* Filters */}
+        <section className="mb-6" aria-label="Filtros">
+          <CompanyFilters industries={industries} locations={locations} />
+        </section>
 
-            {/* Loading State */}
-            {isLoading && (
-              <div className="space-y-4">
-                <div className="h-4 bg-slate-700 rounded animate-pulse" />
-                <div className="h-4 bg-slate-700 rounded animate-pulse w-5/6" />
-              </div>
-            )}
+        {/* Table */}
+        <section aria-label="Tabla de empresas">
+          <CompanyTable companies={companiesResponse.items} />
+        </section>
 
-            {/* Error State */}
-            {error && !isLoading && (
-              <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4">
-                <p className="text-red-200 text-sm">
-                  <strong>Error:</strong> Unable to connect to backend. Make sure
-                  the backend server is running on port 8000.
-                </p>
-              </div>
-            )}
-
-            {/* Success State */}
-            {data && !error && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-slate-400 text-sm font-medium mb-1">
-                      Status
-                    </p>
-                    <p className="text-lg font-semibold text-green-400">
-                      {data.status}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-slate-400 text-sm font-medium mb-1">
-                      Version
-                    </p>
-                    <p className="text-lg font-semibold text-slate-200">
-                      {data.version}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-slate-400 text-sm font-medium mb-1">
-                      Environment
-                    </p>
-                    <p className="text-lg font-semibold text-slate-200">
-                      {data.environment}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-slate-400 text-sm font-medium mb-1">
-                      Last Check
-                    </p>
-                    <p className="text-lg font-semibold text-slate-200">
-                      {new Date(data.timestamp).toLocaleTimeString()}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Auto-refresh Info */}
-                <div className="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-700">
-                  Auto-refreshing every 30 seconds
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-slate-900/50 border-t border-slate-700 px-4 py-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h3 className="text-sm font-semibold text-white mb-3 uppercase tracking-wide">
-                Frontend
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li>
-                  <span className="font-medium text-slate-300">Next.js</span> 16
-                </li>
-                <li>
-                  <span className="font-medium text-slate-300">TypeScript</span>
-                </li>
-                <li>
-                  <span className="font-medium text-slate-300">Tailwind CSS</span>
-                </li>
-                <li>
-                  <span className="font-medium text-slate-300">SWR</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white mb-3 uppercase tracking-wide">
-                Backend
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li>
-                  <span className="font-medium text-slate-300">FastAPI</span>
-                </li>
-                <li>
-                  <span className="font-medium text-slate-300">Python</span> 3.12
-                </li>
-                <li>
-                  <span className="font-medium text-slate-300">Pydantic</span>
-                </li>
-                <li>
-                  <span className="font-medium text-slate-300">Uvicorn</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white mb-3 uppercase tracking-wide">
-                Infrastructure
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li>
-                  Frontend: <span className="font-medium text-slate-300">http://localhost:3000</span>
-                </li>
-                <li>
-                  Backend API: <span className="font-medium text-slate-300">http://localhost:8000</span>
-                </li>
-                <li>
-                  API Docs: <span className="font-medium text-slate-300">http://localhost:8000/docs</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-slate-700 pt-6 text-center text-sm text-slate-500">
-            <p>
-              Workshop IA Nov 2025 • Top SaaS Backend and Frontend Integration
-            </p>
-          </div>
-        </div>
-      </footer>
+        {/* Pagination */}
+        {companiesResponse.total_pages > 0 && (
+          <Pagination
+            page={companiesResponse.page}
+            totalPages={companiesResponse.total_pages}
+            total={companiesResponse.total}
+          />
+        )}
+      </div>
     </div>
   );
 }
