@@ -71,6 +71,16 @@ export default async function Home({ searchParams }: PageProps) {
           <CompanyFilters industries={industries} locations={locations} />
         </section>
 
+        {/* Record count (above table) */}
+        {companiesResponse.total_pages > 0 && (
+          <p className="mb-4 text-sm text-slate-400">
+            <span className="font-medium text-slate-300">
+              {companiesResponse.total}
+            </span>{" "}
+            registros encontrados
+          </p>
+        )}
+
         {/* Table */}
         <section aria-label="Tabla de empresas">
           <CompanyTable companies={companiesResponse.items} />
