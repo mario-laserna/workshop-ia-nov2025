@@ -198,68 +198,68 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Configuración de Infraestructura de Tests
 
-- [ ] Instalar dependencias de testing:
-    - [ ] `uv add --dev pytest pytest-asyncio httpx`
-- [ ] Crear `src/backend/tests/conftest.py`:
-    - [ ] Fixture de `TestClient` con `httpx.AsyncClient` o FastAPI `TestClient`
-    - [ ] Fixture de mock del cliente Supabase (`AsyncMock`)
-    - [ ] Configurar override de dependency `get_supabase` para usar mocks
-    - [ ] Crear datos de prueba (factories/fixtures) para Company, Industry, Location como dicts (formato PostgREST)
+- [x] Instalar dependencias de testing:
+    - [x] `uv add --dev pytest pytest-asyncio httpx`
+- [x] Crear `src/backend/tests/conftest.py`:
+    - [x] Fixture de `TestClient` con `httpx.AsyncClient` o FastAPI `TestClient`
+    - [x] Fixture de mock del cliente Supabase (`AsyncMock`)
+    - [x] Configurar override de dependency `get_supabase` para usar mocks
+    - [x] Crear datos de prueba (factories/fixtures) para Company, Industry, Location como dicts (formato PostgREST)
 
 ### Tests de Endpoint de Industrias
 
-- [ ] Crear `src/backend/tests/api/test_industries.py`:
-    - [ ] Happy path: `GET /api/v1/industries` retorna lista de industrias con status 200
-    - [ ] Caso límite: retorna lista vacía `[]` cuando no hay industrias
-    - [ ] Verificar formato de respuesta: cada item tiene `id` (int) y `name` (str)
+- [x] Crear `src/backend/tests/api/test_industries.py`:
+    - [x] Happy path: `GET /api/v1/industries` retorna lista de industrias con status 200
+    - [x] Caso límite: retorna lista vacía `[]` cuando no hay industrias
+    - [x] Verificar formato de respuesta: cada item tiene `id` (int) y `name` (str)
 
 ### Tests de Endpoint de Ubicaciones
 
-- [ ] Crear `src/backend/tests/api/test_locations.py`:
-    - [ ] Happy path: `GET /api/v1/locations` retorna lista de ubicaciones con status 200
-    - [ ] Caso límite: retorna lista vacía `[]` cuando no hay ubicaciones
-    - [ ] Verificar formato de respuesta: cada item tiene `id`, `city`, `state`, `country`
+- [x] Crear `src/backend/tests/api/test_locations.py`:
+    - [x] Happy path: `GET /api/v1/locations` retorna lista de ubicaciones con status 200
+    - [x] Caso límite: retorna lista vacía `[]` cuando no hay ubicaciones
+    - [x] Verificar formato de respuesta: cada item tiene `id`, `city`, `state`, `country`
 
 ### Tests de Endpoint de Empresas
 
-- [ ] Crear `src/backend/tests/api/test_companies.py`:
-    - [ ] Happy path: `GET /api/v1/companies` retorna lista paginada con status 200
-    - [ ] Filtro por industria: `?industry_id=1` retorna solo empresas de esa industria
-    - [ ] Filtro por ubicación: `?location_id=1` retorna solo empresas de esa ubicación
-    - [ ] Filtros combinados: `?industry_id=1&location_id=2` retorna intersección
-    - [ ] Paginación: `?page=2&size=10` retorna segundo lote de resultados
-    - [ ] Caso límite: filtro sin resultados retorna `items: []` con `total: 0`
-    - [ ] Error de validación: `?page=0` o `?size=200` retorna status 422
+- [x] Crear `src/backend/tests/api/test_companies.py`:
+    - [x] Happy path: `GET /api/v1/companies` retorna lista paginada con status 200
+    - [x] Filtro por industria: `?industry_id=1` retorna solo empresas de esa industria
+    - [x] Filtro por ubicación: `?location_id=1` retorna solo empresas de esa ubicación
+    - [x] Filtros combinados: `?industry_id=1&location_id=2` retorna intersección
+    - [x] Paginación: `?page=2&size=10` retorna segundo lote de resultados
+    - [x] Caso límite: filtro sin resultados retorna `items: []` con `total: 0`
+    - [x] Error de validación: `?page=0` o `?size=200` retorna status 422
 
 ### Tests de Servicios (Unit Tests)
 
-- [ ] Crear `src/backend/tests/services/test_company_service.py`:
-    - [ ] Test de cálculo correcto de `total_pages` (ej. 100 items, size 20 → 5 pages)
-    - [ ] Test de delegación correcta al repositorio con parámetros
-    - [ ] Test con total = 0 retorna response válida con 0 pages
+- [x] Crear `src/backend/tests/services/test_company_service.py`:
+    - [x] Test de cálculo correcto de `total_pages` (ej. 100 items, size 20 → 5 pages)
+    - [x] Test de delegación correcta al repositorio con parámetros
+    - [x] Test con total = 0 retorna response válida con 0 pages
 
-- [ ] Crear `src/backend/tests/services/test_industry_service.py`:
-    - [ ] Test de delegación al repositorio
-    - [ ] Test con lista vacía
+- [x] Crear `src/backend/tests/services/test_industry_service.py`:
+    - [x] Test de delegación al repositorio
+    - [x] Test con lista vacía
 
-- [ ] Crear `src/backend/tests/services/test_location_service.py`:
-    - [ ] Test de delegación al repositorio
-    - [ ] Test con lista vacía
+- [x] Crear `src/backend/tests/services/test_location_service.py`:
+    - [x] Test de delegación al repositorio
+    - [x] Test con lista vacía
 
 ### Tests de Repositorios (Unit Tests)
 
-- [ ] Crear `src/backend/tests/repositories/test_company_repository.py`:
-    - [ ] Test de query sin filtros llama a `client.table("company").select(...)` sin `.eq()`
-    - [ ] Test de query con filtro `industry_id` verifica que se llama `.eq("industry_id", ...)` en el mock
-    - [ ] Test de query con filtro `location_id` verifica que se llama `.eq("location_id", ...)` en el mock
-    - [ ] Test de paginación: verifica `.range(start, end)` con valores correctos
-    - [ ] Test de `count()` verifica uso de `count="exact"` y `head=True`
+- [x] Crear `src/backend/tests/repositories/test_company_repository.py`:
+    - [x] Test de query sin filtros llama a `client.table("company").select(...)` sin `.eq()`
+    - [x] Test de query con filtro `industry_id` verifica que se llama `.eq("industry_id", ...)` en el mock
+    - [x] Test de query con filtro `location_id` verifica que se llama `.eq("location_id", ...)` en el mock
+    - [x] Test de paginación: verifica `.range(start, end)` con valores correctos
+    - [x] Test de `count()` verifica uso de `count="exact"` y `head=True`
 
-- [ ] Crear `src/backend/tests/repositories/test_industry_repository.py`:
-    - [ ] Test de `get_all()` verifica que se llama `.order("name")` en el mock
+- [x] Crear `src/backend/tests/repositories/test_industry_repository.py`:
+    - [x] Test de `get_all()` verifica que se llama `.order("name")` en el mock
 
-- [ ] Crear `src/backend/tests/repositories/test_location_repository.py`:
-    - [ ] Test de `get_all()` verifica que se llama `.order("city")` en el mock
+- [x] Crear `src/backend/tests/repositories/test_location_repository.py`:
+    - [x] Test de `get_all()` verifica que se llama `.order("city")` en el mock
 
 ---
 
@@ -267,24 +267,24 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Tipos TypeScript
 
-- [ ] Extender tipos TypeScript (`src/frontend/lib/types.ts`):
-    - [ ] Interface `Company`: `id`, `name`, `industry` (string), `location` (string), `products`, `founding_year`, `total_funding`, `arr`, `valuation`
-    - [ ] Interface `Industry`: `id`, `name`
-    - [ ] Interface `Location`: `id`, `city`, `state` (nullable), `country`
-    - [ ] Interface genérica `PaginatedResponse<T>`: `items: T[]`, `total`, `page`, `size`, `total_pages`
-    - [ ] Type alias `CompanyListResponse = PaginatedResponse<Company>`
+- [x] Extender tipos TypeScript (`src/frontend/lib/types.ts`):
+    - [x] Interface `Company`: `id`, `name`, `industry` (string), `location` (string), `products`, `founding_year`, `total_funding`, `arr`, `valuation`
+    - [x] Interface `Industry`: `id`, `name`
+    - [x] Interface `Location`: `id`, `city`, `state` (nullable), `country`
+    - [x] Interface genérica `PaginatedResponse<T>`: `items: T[]`, `total`, `page`, `size`, `total_pages`
+    - [x] Type alias `CompanyListResponse = PaginatedResponse<Company>`
 
 ### API Client
 
-- [ ] Extender API client (`src/frontend/lib/api.ts`):
-    - [ ] Función `fetchCompanies(params?: { industry_id?, location_id?, page?, size? }): Promise<CompanyListResponse>`:
-        - [ ] Construir query string con parámetros opcionales
-        - [ ] Fetch a `GET /api/v1/companies?...`
-        - [ ] Manejo de errores HTTP consistente
-    - [ ] Función `fetchIndustries(): Promise<Industry[]>`:
-        - [ ] Fetch a `GET /api/v1/industries`
-    - [ ] Función `fetchLocations(): Promise<Location[]>`:
-        - [ ] Fetch a `GET /api/v1/locations`
+- [x] Extender API client (`src/frontend/lib/api.ts`):
+    - [x] Función `fetchCompanies(params?: { industry_id?, location_id?, page?, size? }): Promise<CompanyListResponse>`:
+        - [x] Construir query string con parámetros opcionales
+        - [x] Fetch a `GET /api/v1/companies?...`
+        - [x] Manejo de errores HTTP consistente
+    - [x] Función `fetchIndustries(): Promise<Industry[]>`:
+        - [x] Fetch a `GET /api/v1/industries`
+    - [x] Función `fetchLocations(): Promise<Location[]>`:
+        - [x] Fetch a `GET /api/v1/locations`
 
 ---
 
@@ -292,56 +292,56 @@ Generar los 3 ADRs más relevantes del proyecto utilizando el template [adr_temp
 
 ### Componentes
 
-- [ ] Crear componente `CompanyFilters` (`src/frontend/components/CompanyFilters.tsx`):
-    - [ ] Client Component (`'use client'`)
-    - [ ] Props: `industries: Industry[]`, `locations: Location[]`
-    - [ ] Dropdown de industria con opciones dinámicas
-    - [ ] Dropdown de ubicación con opciones dinámicas
-    - [ ] Al cambiar selección, actualizar URL search params vía `useRouter()` + `useSearchParams()`
-    - [ ] Botón "Limpiar filtros" que resetea search params
-    - [ ] Estilo con Tailwind CSS, tema oscuro (slate-900/800)
+- [x] Crear componente `CompanyFilters` (`src/frontend/components/CompanyFilters.tsx`):
+    - [x] Client Component (`'use client'`)
+    - [x] Props: `industries: Industry[]`, `locations: Location[]`
+    - [x] Dropdown de industria con opciones dinámicas
+    - [x] Dropdown de ubicación con opciones dinámicas
+    - [x] Al cambiar selección, actualizar URL search params vía `useRouter()` + `useSearchParams()`
+    - [x] Botón "Limpiar filtros" que resetea search params
+    - [x] Estilo con Tailwind CSS, tema oscuro (slate-900/800)
 
-- [ ] Crear componente `CompanyTable` (`src/frontend/components/CompanyTable.tsx`):
-    - [ ] Server Component (recibe datos como props)
-    - [ ] Props: `companies: Company[]`
-    - [ ] Formato tabular HTML (`<table>`) — no cards
-    - [ ] Columnas: nombre, industria, ubicación, productos, año fundación, total inversión, ingresos anuales, valoración
-    - [ ] Formateo de moneda: `$X.XM` / `$X.XB` para funding, ARR, valuation
-    - [ ] Empty state: mensaje cuando `companies.length === 0`
-    - [ ] Responsivo: `overflow-x-auto` para scroll horizontal en mobile
-    - [ ] Estilo con Tailwind CSS, tema oscuro
+- [x] Crear componente `CompanyTable` (`src/frontend/components/CompanyTable.tsx`):
+    - [x] Server Component (recibe datos como props)
+    - [x] Props: `companies: Company[]`
+    - [x] Formato tabular HTML (`<table>`) — no cards
+    - [x] Columnas: nombre, industria, ubicación, productos, año fundación, total inversión, ingresos anuales, valoración
+    - [x] Formateo de moneda: `$X.XM` / `$X.XB` para funding, ARR, valuation
+    - [x] Empty state: mensaje cuando `companies.length === 0`
+    - [x] Responsivo: `overflow-x-auto` para scroll horizontal en mobile
+    - [x] Estilo con Tailwind CSS, tema oscuro
 
-- [ ] Crear componente `Pagination` (`src/frontend/components/Pagination.tsx`):
-    - [ ] Client Component (`'use client'`)
-    - [ ] Props: `page: number`, `totalPages: number`, `total: number`
-    - [ ] Botón "Anterior" (disabled si page = 1)
-    - [ ] Botón "Siguiente" (disabled si page = totalPages)
-    - [ ] Indicador "Página X de Y"
-    - [ ] Indicador total de registros
-    - [ ] Actualiza `page` en URL search params
+- [x] Crear componente `Pagination` (`src/frontend/components/Pagination.tsx`):
+    - [x] Client Component (`'use client'`)
+    - [x] Props: `page: number`, `totalPages: number`, `total: number`
+    - [x] Botón "Anterior" (disabled si page = 1)
+    - [x] Botón "Siguiente" (disabled si page = totalPages)
+    - [x] Indicador "Página X de Y"
+    - [x] Indicador total de registros
+    - [x] Actualiza `page` en URL search params
 
 ### Estados de la Página
 
-- [ ] Crear loading state (`src/frontend/app/loading.tsx`):
-    - [ ] Skeleton de tabla con placeholders animados (`animate-pulse`)
-    - [ ] Placeholder para filtros y paginación
-    - [ ] Estilo consistente con tema oscuro
+- [x] Crear loading state (`src/frontend/app/loading.tsx`):
+    - [x] Skeleton de tabla con placeholders animados (`animate-pulse`)
+    - [x] Placeholder para filtros y paginación
+    - [x] Estilo consistente con tema oscuro
 
-- [ ] Crear error boundary (`src/frontend/app/error.tsx`):
-    - [ ] Client Component (`'use client'`)
-    - [ ] Mensaje de error claro
-    - [ ] Botón "Reintentar" que llama a `reset()`
-    - [ ] Estilo consistente con tema oscuro
+- [x] Crear error boundary (`src/frontend/app/error.tsx`):
+    - [x] Client Component (`'use client'`)
+    - [x] Mensaje de error claro
+    - [x] Botón "Reintentar" que llama a `reset()`
+    - [x] Estilo consistente con tema oscuro
 
 ### Página Principal
 
-- [ ] Refactorizar página principal (`src/frontend/app/page.tsx`):
-    - [ ] Convertir a Server Component (remover `'use client'`)
-    - [ ] Leer `searchParams` de la URL: `industry_id`, `location_id`, `page`
-    - [ ] Fetch paralelo con `Promise.all`: empresas + industrias + ubicaciones desde el backend
-    - [ ] Componer layout: `CompanyFilters` + `CompanyTable` + `Pagination`
-    - [ ] Mantener header con título "Top SaaS Dashboard"
-    - [ ] Estilo con Tailwind CSS, tema oscuro (slate-900/800)
+- [x] Refactorizar página principal (`src/frontend/app/page.tsx`):
+    - [x] Convertir a Server Component (remover `'use client'`)
+    - [x] Leer `searchParams` de la URL: `industry_id`, `location_id`, `page`
+    - [x] Fetch paralelo con `Promise.all`: empresas + industrias + ubicaciones desde el backend
+    - [x] Componer layout: `CompanyFilters` + `CompanyTable` + `Pagination`
+    - [x] Mantener header con título "Top SaaS Dashboard"
+    - [x] Estilo con Tailwind CSS, tema oscuro (slate-900/800)
 
 ---
 
