@@ -216,3 +216,6 @@ marimo/_lsp/
 __marimo__/
 .github/.DS_Store
 .DS_Store
+
+# Playwright MCP
+.playwright-mcp/
